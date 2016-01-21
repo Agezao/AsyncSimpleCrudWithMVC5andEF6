@@ -1,0 +1,18 @@
+﻿@model EmployeeControl.Models.RoleIndexModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2>Roles</h2>
+    <section id="RoleForm">
+        @Html.Partial("RoleForm")
+    </section>
+    <hr />
+    <section id="RoleList">
+        @Html.Partial("RoleList", Model.RoleList)
+    </section>
+</div>
+

@@ -1,0 +1,23 @@
+﻿@model EmployeeControl.Models.RoleListModel
+
+@if (Model != null && Model.Roles.Count > 0)
+{
+    <table id="table" class="table table-hover table-mc-orange">
+        <thead>
+            <tr>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var role in Model.Roles)
+            {
+                <tr>
+                    <td data-title="Role">@role.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else {
+    <p>No roles.</p>
+}

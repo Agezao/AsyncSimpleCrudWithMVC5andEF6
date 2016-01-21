@@ -1,0 +1,38 @@
+﻿
+<div class="boxForm">
+    <h2>New Role</h2>
+    <form id="newRole">
+        <input type="text" id="role_Name" required placeholder="Role Name" />
+        <input type="submit" id="workaroundFormValidation" style="display:none" />
+        <input type="button" class="greenButton" id="SaveRole" value="Save" />
+    </form>
+</div>
+
+<script type="text/javascript">
+    $("#SaveRole").unbind("click").click(function () {
+        var $myForm = $('#newRole')
+        if (!$myForm[0].checkValidity()) {
+            $myForm.find(':submit').click()
+        } else {
+            var viewRole = {
+                name: $("#role_Name").val()
+            };
+
+            $.ajax({
+                method: "POST",
+                url: "/Roles/AddRole",
+                data: viewRole
+            }).done(function (data) {
+                if (data != undefined && data.success) {
+                    $.ajax("/Roles/RoleList")
+                        .done(function (data) {
+                            $("#RoleList").html(data);
+                        });
+                    $("#role_Name").val("");
+                } else {
+                    alert("There was an error trying to add your Role!");
+                }
+            });
+        }
+    });
+</script>

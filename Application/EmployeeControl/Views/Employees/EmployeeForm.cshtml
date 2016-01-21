@@ -1,0 +1,48 @@
+﻿@model EmployeeControl.Models.EmployeeFormModel
+
+<div class="boxForm">
+    <h2>New Employee</h2>
+    <form id="newEmployee">
+        <input type="text" id="employee_Name" required placeholder="Employee Name" />
+        <select id="employee_Role" required>
+            <option value="">Select Role...</option>
+            @foreach (var role in Model.Roles)
+            {
+                <option value="@role.Id">@role.Name</option>
+            }
+        </select>
+        <input type="submit" id="workaroundFormValidation" style="display:none" />
+        <input type="button" class="greenButton" id="SaveEmployee" value="Save" />
+    </form>
+</div>
+
+<script type="text/javascript">
+    $("#SaveEmployee").unbind("click").click(function () {
+        var $myForm = $('#newEmployee')
+        if (!$myForm[0].checkValidity()) {
+            $myForm.find(':submit').click()
+        } else {
+            var viewEmployee = {
+                name: $("#employee_Name").val(),
+                idRole: $("#employee_Role").val()
+            };
+
+            $.ajax({
+                method: "POST",
+                url: "/Employees/AddEmployee",
+                data: viewEmployee
+            }).done(function (data) {
+                if (data != undefined && data.success) {
+                    $.ajax("/Employees/EmployeeList")
+                        .done(function (data) {
+                            $("#EmployeeList").html(data);
+                        });
+                    $("#employee_Name").val("");
+                    $("#employee_Role").val("");
+                } else {
+                    alert("There was an error trying to add your Employee!");
+                }
+            });
+        }
+    });
+</script>
